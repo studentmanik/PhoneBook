@@ -34,11 +34,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnShow"/>
-
+<!--
     <ListView
         android:layout_below="@+id/btnShow"
         android:id="@+id/lv"
         android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
+    <ImageView
+        android:layout_below="@id/btnShow"
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+<!--    <GridView
+        android:columnWidth="50dp"
+        android:layout_below="@+id/imageView1"
+        android:id="@+id/gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></GridView>-->
 
 </RelativeLayout>
