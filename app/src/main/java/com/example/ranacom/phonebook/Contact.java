@@ -36,8 +36,13 @@ public class Contact extends ActionBarActivity {
         init();
 
 
+hello();
 
+    }
 
+    private void hello() {
+
+        System.out.println("hello");
     }
 
     private void init() {
@@ -53,7 +58,7 @@ public class Contact extends ActionBarActivity {
             public void onClick(View v) {
                 /*ContactList contactList = new ContactList(etPersonName.getText().toString(),etPhoneNumber.getText().toString());
                 db.addContact(contactList);*/
-
+//ok
 
                 Cursor cursor = getContentResolver().query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
