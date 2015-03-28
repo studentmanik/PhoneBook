@@ -41,6 +41,7 @@ hello();
     }
 
     private void hello() {
+        System.out.print("sdfl");
     }
 
 
