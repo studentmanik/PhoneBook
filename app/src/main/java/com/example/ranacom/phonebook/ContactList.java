@@ -21,6 +21,12 @@ public class ContactList {
         setIVContactImage(image_uri);
 
     }
+    public ContactList(String name,String number){
+        setContactName(name);
+        setPhoneNumber(number);
+
+
+    }
     public ContactList(){}
 
     public String getIVContactImage() {

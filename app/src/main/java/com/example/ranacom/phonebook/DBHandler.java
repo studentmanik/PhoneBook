@@ -54,7 +54,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_CONTACT_NAME, list.getContactName()); // Contact Name
         values.put(KEY_CONTACT_NUMBER, list.getPhoneNumber()); // Contact Phone
-        values.put(KEY_CONTACT_IMG, list.getIVContactImage());
+       // values.put(KEY_CONTACT_IMG, list.getIVContactImage());
 
 
         // Inserting Row
@@ -76,7 +76,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 contactList.setPhoneId(Integer.parseInt(cursor.getString(0)));
                 contactList.setContactName(cursor.getString(1));
                 contactList.setPhoneNumber(cursor.getString(2));
-                contactList.setIVContactImage(cursor.getString(3));
+              //  contactList.setIVContactImage(cursor.getString(3));
 
 
               //  contactList.setIVContactImage(Integer.parseInt(cursor.getString(2)));

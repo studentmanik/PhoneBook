@@ -92,7 +92,7 @@ public class Contact extends ActionBarActivity {
                             .getString(cursor
                                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                    String image_uri    = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                 //   String image_uri    = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
                 /*    if (image_uri!=null){
                         img=image_uri;
                     }else {
@@ -113,9 +113,9 @@ public class Contact extends ActionBarActivity {
 
 
 
-                    ContactList contactList = new ContactList(name,phoneNumber,image_uri);
+                    ContactList contactList = new ContactList(name,phoneNumber);
                     db.addContact(contactList);
-                    Toast.makeText(getApplicationContext(),image_uri,Toast.LENGTH_LONG).show();
+                 //   Toast.makeText(getApplicationContext(),image_uri,Toast.LENGTH_LONG).show();
 
                  //   System.out.println(image_uri);
 
