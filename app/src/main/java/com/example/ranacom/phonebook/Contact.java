@@ -1,6 +1,9 @@
 package com.example.ranacom.phonebook;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
@@ -9,9 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -24,6 +31,7 @@ public class Contact extends ActionBarActivity {
     ContactList contacts;
     EditText etPersonName,etPhoneNumber;
     Button btnShow,btnAdd;
+    GridView gv;
 
 
 
@@ -50,7 +58,16 @@ hello();
 
         etPersonName = (EditText) findViewById(R.id.etPersonName);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-        lv = (ListView) findViewById(R.id.lv);
+      //  lv = (ListView) findViewById(R.id.lv);
+       // gv = (GridView) findViewById(R.id.gv);
+        ImageView profile  = (ImageView)findViewById(R.id.imageView1);
+        Uri my_contact_Uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(3));
+        InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),my_contact_Uri);
+        BufferedInputStream buf =new BufferedInputStream(photo_stream);
+
+        Bitmap my_btmp = BitmapFactory.decodeStream(buf);
+        profile.setImageBitmap(my_btmp);
+
         btnShow= (Button) findViewById(R.id.btnShow);
         btnAdd= (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +90,9 @@ hello();
                     String phoneNumber = cursor
                             .getString(cursor
                                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    String image=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE));
 
-                    Toast.makeText(getApplicationContext(),name+ "  " + phoneNumber, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),image, Toast.LENGTH_LONG).show();
 
 
                     ContactList contactList = new ContactList(name,phoneNumber);
@@ -94,7 +112,7 @@ hello();
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lv.setAdapter(new ContactListAdapter(getApplicationContext(),db.getAllContact()));
+                gv.setAdapter(new ContactListAdapter(getApplicationContext(),db.getAllContact()));
             }
         });
 
