@@ -13,7 +13,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // database VERSION
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "contact_db";
@@ -54,7 +54,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_CONTACT_NAME, list.getContactName()); // Contact Name
         values.put(KEY_CONTACT_NUMBER, list.getPhoneNumber()); // Contact Phone
-        values.put(KEY_CONTACT_IMG, 122);
+        values.put(KEY_CONTACT_IMG, list.getIVContactImage());
 
 
         // Inserting Row
@@ -76,6 +76,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 contactList.setPhoneId(Integer.parseInt(cursor.getString(0)));
                 contactList.setContactName(cursor.getString(1));
                 contactList.setPhoneNumber(cursor.getString(2));
+                contactList.setIVContactImage(cursor.getString(3));
 
 
               //  contactList.setIVContactImage(Integer.parseInt(cursor.getString(2)));

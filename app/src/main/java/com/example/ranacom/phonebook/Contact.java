@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +19,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 
 public class Contact extends ActionBarActivity {
-
+    Bitmap bitmap;
     ListView lv;
     List<ContactList> namelist;
     DBHandler db;
@@ -32,6 +34,8 @@ public class Contact extends ActionBarActivity {
     EditText etPersonName,etPhoneNumber;
     Button btnShow,btnAdd;
     GridView gv;
+    String img;
+ //   ImageView profile;
 
 
 
@@ -42,7 +46,7 @@ public class Contact extends ActionBarActivity {
 
 
         init();
-
+      //  profile  = (ImageView)findViewById(R.id.IVContactImage);
 
 hello();
 
@@ -58,15 +62,15 @@ hello();
 
         etPersonName = (EditText) findViewById(R.id.etPersonName);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-      //  lv = (ListView) findViewById(R.id.lv);
+       lv = (ListView) findViewById(R.id.lv);
        // gv = (GridView) findViewById(R.id.gv);
-        ImageView profile  = (ImageView)findViewById(R.id.imageView1);
-        Uri my_contact_Uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(3));
-        InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),my_contact_Uri);
-        BufferedInputStream buf =new BufferedInputStream(photo_stream);
 
-        Bitmap my_btmp = BitmapFactory.decodeStream(buf);
-        profile.setImageBitmap(my_btmp);
+       /* Uri my_contact_Uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(3));
+        InputStream photo_stream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(),my_contact_Uri);
+        BufferedInputStream buf =new BufferedInputStream(photo_stream);*/
+
+       // Bitmap my_btmp = BitmapFactory.decodeStream(buf);
+      //  profile.setImageBitmap(my_btmp);
 
         btnShow= (Button) findViewById(R.id.btnShow);
         btnAdd= (Button) findViewById(R.id.btnAdd);
@@ -90,13 +94,32 @@ hello();
                     String phoneNumber = cursor
                             .getString(cursor
                                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    String image=cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE));
 
-                   // Toast.makeText(getApplicationContext(),image, Toast.LENGTH_LONG).show();
+                    String image_uri    = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                    if (image_uri!=null){
+                        img=image_uri;
+                    }else {
+                        img ="0";
 
 
-                    ContactList contactList = new ContactList(name,phoneNumber);
+                    }
+                  /*  if (image_uri!=null){ try {
+                        bitmap = MediaStore.Images.Media .getBitmap(getApplicationContext().getContentResolver(), Uri.parse(image_uri));
+
+                        profile.setImageBitmap(bitmap) ;
+                    } catch (IOException e) {
+
+                    }}else{
+                        profile.setImageResource(R.drawable.spalish);
+
+                        }*/
+
+
+
+                    ContactList contactList = new ContactList(name,phoneNumber,img);
                     db.addContact(contactList);
+                    Toast.makeText(getApplicationContext(),img,Toast.LENGTH_LONG).show();
+
 
 
 
@@ -112,7 +135,7 @@ hello();
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gv.setAdapter(new ContactListAdapter(getApplicationContext(),db.getAllContact()));
+                lv.setAdapter(new ContactListAdapter(getApplicationContext(),db.getAllContact()));
             }
         });
 

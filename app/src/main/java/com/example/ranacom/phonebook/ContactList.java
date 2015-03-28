@@ -12,21 +12,22 @@ public class ContactList {
     }
 
     private int phoneId;
-    private int IVContactImage;
+    private String IVContactImage;
     private String contactName;
     private String phoneNumber;
-    public ContactList(String name,String number){
+    public ContactList(String name,String number,String image_uri){
         setContactName(name);
         setPhoneNumber(number);
+        setIVContactImage(image_uri);
 
     }
     public ContactList(){}
 
-    public int getIVContactImage() {
+    public String getIVContactImage() {
         return IVContactImage;
     }
 
-    public void setIVContactImage(int IVContactImage) {
+    public void setIVContactImage(String IVContactImage) {
         this.IVContactImage = IVContactImage;
     }
 
