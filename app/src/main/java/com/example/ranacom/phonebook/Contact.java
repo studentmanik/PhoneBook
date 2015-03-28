@@ -48,14 +48,11 @@ public class Contact extends ActionBarActivity {
         init();
       //  profile  = (ImageView)findViewById(R.id.IVContactImage);
 
-hello();
+
 
     }
 
-    private void hello() {
 
-        System.out.println("hello");
-    }
 
     private void init() {
         db = new DBHandler(this);
@@ -96,13 +93,13 @@ hello();
                                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                     String image_uri    = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-                    if (image_uri!=null){
+                /*    if (image_uri!=null){
                         img=image_uri;
                     }else {
                         img ="0";
 
 
-                    }
+                    }*/
                   /*  if (image_uri!=null){ try {
                         bitmap = MediaStore.Images.Media .getBitmap(getApplicationContext().getContentResolver(), Uri.parse(image_uri));
 
@@ -116,11 +113,11 @@ hello();
 
 
 
-                    ContactList contactList = new ContactList(name,phoneNumber,img);
+                    ContactList contactList = new ContactList(name,phoneNumber,image_uri);
                     db.addContact(contactList);
-                    Toast.makeText(getApplicationContext(),img,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),image_uri,Toast.LENGTH_LONG).show();
 
-
+                 //   System.out.println(image_uri);
 
 
 
@@ -128,6 +125,7 @@ hello();
                 }
 
                 cursor.close();
+
                 Toast.makeText(getApplicationContext(), "Imported", Toast.LENGTH_LONG).show();
 
             }

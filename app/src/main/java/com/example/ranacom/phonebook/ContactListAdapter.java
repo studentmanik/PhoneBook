@@ -44,7 +44,7 @@ public class ContactListAdapter extends ArrayAdapter<ContactList> {
       ContactList contactList = getItem(position);
        holder.tvName.setText(contactList.getContactName());
         holder.tvPhoneNumber.setText(contactList.getPhoneNumber());
-        String image_uri=contactList.getIVContactImage();
+        String image_uri=contactList.getIVContactImage().toString();
         if (image_uri=="0"){
             holder.IVContactImage.setImageResource(R.drawable.spalish);}
         else{
