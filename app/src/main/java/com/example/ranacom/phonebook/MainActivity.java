@@ -14,7 +14,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+hello();
 
         Thread background = new Thread() {
             public void run() {
@@ -38,6 +38,9 @@ public class MainActivity extends ActionBarActivity {
 
         // start thread
         background.start();
+    }
+
+    private void hello() {
     }
 
 
