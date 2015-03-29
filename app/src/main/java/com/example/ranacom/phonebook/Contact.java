@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,11 +48,55 @@ public class Contact extends ActionBarActivity {
 
         init();
       //  profile  = (ImageView)findViewById(R.id.IVContactImage);
+      //  test();
 
 
 
     }
 
+    private void test() {
+        List<ContactList> contactLists = new ArrayList<ContactList>();
+        Cursor cursor = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
+                null,null
+                        + " COLLATE LOCALIZED ASC");
+
+        // Looping through the contacts and adding them to arrayList
+        while (cursor.moveToNext()) {
+            ContactList contactList = new ContactList();
+            String name = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phoneNumber = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            String image_uri = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+
+            contactList.setPhoneNumber(phoneNumber);
+            contactList.setContactName(name);
+            contactList.setIVContactImage(image_uri);
+/*
+            if (image_uri!=null){ try {
+                bitmap = MediaStore.Images.Media .getBitmap(getApplicationContext().getContentResolver(), Uri.parse(image_uri));
+
+                //  profile.setImageBitmap(bitmap) ;
+            } catch (IOException e) {
+
+            }}else{
+                //   profile.setImageResource(R.drawable.spalish);
+
+            }*/
+
+
+            contactLists.add(contactList);
+           // ContactList contactList1 = new ContactList(name,phoneNumber);
+            lv.setAdapter(new ContactListAdapter(getApplicationContext(), contactLists));
+    }
+
+    }
 
 
     private void init() {
@@ -71,7 +116,8 @@ public class Contact extends ActionBarActivity {
 
         btnShow= (Button) findViewById(R.id.btnShow);
         btnAdd= (Button) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+       btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*ContactList contactList = new ContactList(etPersonName.getText().toString(),etPhoneNumber.getText().toString());
@@ -80,7 +126,7 @@ public class Contact extends ActionBarActivity {
 
                 Cursor cursor = getContentResolver().query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
-                        null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                        null,null
                                 + " COLLATE LOCALIZED ASC");
 
                 // Looping through the contacts and adding them to arrayList
@@ -92,29 +138,17 @@ public class Contact extends ActionBarActivity {
                             .getString(cursor
                                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                 //   String image_uri    = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-                /*    if (image_uri!=null){
-                        img=image_uri;
-                    }else {
-                        img ="0";
-
-
-                    }*/
-                  /*  if (image_uri!=null){ try {
-                        bitmap = MediaStore.Images.Media .getBitmap(getApplicationContext().getContentResolver(), Uri.parse(image_uri));
-
-                        profile.setImageBitmap(bitmap) ;
-                    } catch (IOException e) {
-
-                    }}else{
-                        profile.setImageResource(R.drawable.spalish);
-
-                        }*/
+                    String image_uri = cursor
+                            .getString(cursor
+                                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
 
 
 
-                    ContactList contactList = new ContactList(name,phoneNumber);
-                    db.addContact(contactList);
+
+
+                    ContactList contactList = new ContactList(name,phoneNumber,image_uri);
+                   // lv.setAdapter(new ContactListAdapter(getApplicationContext(), (List<ContactList>) contactList));
+                   db.addContact(contactList);
                  //   Toast.makeText(getApplicationContext(),image_uri,Toast.LENGTH_LONG).show();
 
                  //   System.out.println(image_uri);
@@ -133,6 +167,7 @@ public class Contact extends ActionBarActivity {
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            //   lv.setAdapter(new ContactListAdapter(getApplicationContext(),contactList));
                 lv.setAdapter(new ContactListAdapter(getApplicationContext(),db.getAllContact()));
             }
         });
