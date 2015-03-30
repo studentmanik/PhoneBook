@@ -18,6 +18,9 @@ public class ContactList {
     private String emailAddress;
 
 
+
+    private String contactId;
+
     public ContactList(String name, String number, String image_uri) {
         setContactName(name);
         setPhoneNumber(number);
@@ -25,11 +28,12 @@ public class ContactList {
 
     }
 
-    public ContactList(String name, String number, String image_uri, String email) {
+    public ContactList(String name, String number, String image_uri, String email,String contactId) {
         setContactName(name);
         setPhoneNumber(number);
         setIVContactImage(image_uri);
         setEmailAddress(email);
+        setContactId(contactId);
     }
 
     public ContactList(String name, String number) {
@@ -39,7 +43,13 @@ public class ContactList {
 
     public ContactList() {
     }
+    public String getContactId() {
+        return contactId;
+    }
 
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
+    }
     public String getEmailAddress() {
         return emailAddress;
     }

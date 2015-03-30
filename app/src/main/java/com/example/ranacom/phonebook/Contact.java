@@ -77,58 +77,79 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
         btnAdd= (Button) findViewById(R.id.btnAdd);
 
 
-
-
-        /*ContactList contactList = new ContactList(etPersonName.getText().toString(),etPhoneNumber.getText().toString());
-                db.addContact(contactList);*/
-//ok
         ContentResolver cr = getBaseContext().getContentResolver();
-        Cursor cursor = cr.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, null+ " COLLATE LOCALIZED ASC");
+        Cursor cur = cr .query(ContactsContract.Contacts.CONTENT_URI, null, null, null,  null+ " COLLATE LOCALIZED ASC");
 
-        // Looping through the contacts and adding them to arrayList
-        while (cursor.moveToNext()) {
-            String emailAddress = "0";
-            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        if (cur.getCount() > 0) {
 
-            String image_uri = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+        //    Log.i("Content provider", "Reading contact  emails");
 
-            String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            Cursor emails = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
-            while (emails.moveToNext()) {
-                emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-              //  Log.i("Content email", emailAddress);
+            while (cur .moveToNext()) {
+
+                String phoneNumber = null;
+                String name = null;
+                String image_uri = null;
+                String emailAddress = null;
+
+                String contactId = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+
+
+
+                Cursor emails = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
+
+
+               // Log.i("Content url", image_uri);
+
+                while (emails.moveToNext()) {
+
+                    // This would allow you get several email addresses
+                    emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                    String emailAddress1 = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA1));
+
+
+                    Log.e("asdds==>", emailAddress1);
+
+
+                }
+                Cursor data = cr.query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
+                while (data.moveToNext()) {
+                      phoneNumber = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                      name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                      image_uri = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+//                      String image_uri1 = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.EXTRA_ADDRESS_BOOK_INDEX_TITLES));
+//                    Log.i("Content email", image_uri1);
+                }
+               /* String[] PHONES_PROJECTION = new String[] { "_id","display_name","data1","data3"};//
+                String contactId2 = cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup._ID));
+                Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId2, null, null);
+                //name type ..
+                while(phone.moveToNext()) {
+                    int i = phone.getInt(0);
+                    String str = phone.getString(1);
+                    str = phone.getString(2);
+                    str = phone.getString(3);
+                    Log.i("Content test", str);
+                }
+                phone.close();*/
+
+               ContactList contactList = new ContactList(name,phoneNumber,image_uri,emailAddress,contactId);
+
+                db.addContact(contactList);
+                data.close();
+                emails.close();
             }
-
-
-
-
-            ContactList contactList = new ContactList(name,phoneNumber,image_uri,emailAddress);
-
-            db.addContact(contactList);
-            emails.close();
-
-
-
-
 
 
         }
+        cur.close();
 
-        cursor.close();
+
+
+
 
         Toast.makeText(getApplicationContext(), "Imported", Toast.LENGTH_LONG).show();
-        btnShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //   lv.setAdapter(new ContactListAdapter(getApplicationContext(),contactList));
-             /*   adapter=new ContactListAdapter(getApplicationContext(),db.getAllContact());
-                gv.setAdapter(adapter);*/
 
-
-            }
-        });
         adapter= new ContactListAdapter(getApplicationContext(),db.getAllContact());
         gv.setAdapter(adapter);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

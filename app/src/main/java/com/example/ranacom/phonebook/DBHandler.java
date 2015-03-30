@@ -13,7 +13,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // database VERSION
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
     // Database Name
     private static final String DATABASE_NAME = "contact_db";
@@ -23,10 +23,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Contacts Table Columns names
     private static final String KEY_ID = "id";
+    private static final String KEY_CONTACT_ID = "contactId";
     private static final String KEY_CONTACT_NAME = "contact_name";
     private static final String KEY_CONTACT_NUMBER = "contact_number";
     private static final String KEY_CONTACT_IMG = "contact_img";
     private static final String KEY_CONTACT_EMAIL = "contact_email";
+
 
 
     public DBHandler(Context context) {
@@ -34,7 +36,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_NAME + " TEXT,"+ KEY_CONTACT_NUMBER + " TEXT," + KEY_CONTACT_IMG + " TEXT,"+ KEY_CONTACT_EMAIL + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_ID + " TEXT,"+ KEY_CONTACT_NAME + " TEXT,"+ KEY_CONTACT_NUMBER + " TEXT," + KEY_CONTACT_IMG + " TEXT,"+ KEY_CONTACT_EMAIL + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
             }
 
@@ -49,14 +51,18 @@ public class DBHandler extends SQLiteOpenHelper {
 
     void addContact(ContactList list) {
 
+
         SQLiteDatabase db = super.getWritableDatabase();
+
+     //   String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS +" WHARE "+  ;
         ContentValues values = new ContentValues();
 
-
+        values.put(KEY_CONTACT_ID, list.getContactId());
         values.put(KEY_CONTACT_NAME, list.getContactName()); // Contact Name
         values.put(KEY_CONTACT_NUMBER, list.getPhoneNumber()); // Contact Phone
         values.put(KEY_CONTACT_IMG, list.getIVContactImage());
         values.put(KEY_CONTACT_EMAIL, list.getEmailAddress());
+
 
 
 
@@ -78,10 +84,12 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 ContactList contactList = new ContactList();
                 contactList.setPhoneId(Integer.parseInt(cursor.getString(0)));
-                contactList.setContactName(cursor.getString(1));
-                contactList.setPhoneNumber(cursor.getString(2));
-                contactList.setIVContactImage(cursor.getString(3));
-                contactList.setEmailAddress(cursor.getString(4));
+
+                contactList.setContactId(cursor.getString(1));
+                contactList.setContactName(cursor.getString(2));
+                contactList.setPhoneNumber(cursor.getString(3));
+                contactList.setIVContactImage(cursor.getString(4));
+                contactList.setEmailAddress(cursor.getString(5));
 
 
 
