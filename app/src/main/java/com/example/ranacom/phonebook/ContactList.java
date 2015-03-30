@@ -15,19 +15,38 @@ public class ContactList {
     private String IVContactImage;
     private String contactName;
     private String phoneNumber;
-    public ContactList(String name,String number,String image_uri){
+    private String emailAddress;
+
+
+    public ContactList(String name, String number, String image_uri) {
         setContactName(name);
         setPhoneNumber(number);
         setIVContactImage(image_uri);
 
     }
-    public ContactList(String name,String number){
+
+    public ContactList(String name, String number, String image_uri, String email) {
         setContactName(name);
         setPhoneNumber(number);
-
-
+        setIVContactImage(image_uri);
+        setEmailAddress(email);
     }
-    public ContactList(){}
+
+    public ContactList(String name, String number) {
+        setContactName(name);
+        setPhoneNumber(number);
+    }
+
+    public ContactList() {
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
     public String getIVContactImage() {
         return IVContactImage;

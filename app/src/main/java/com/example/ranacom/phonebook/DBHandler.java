@@ -13,7 +13,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // database VERSION
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     // Database Name
     private static final String DATABASE_NAME = "contact_db";
@@ -26,6 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_CONTACT_NAME = "contact_name";
     private static final String KEY_CONTACT_NUMBER = "contact_number";
     private static final String KEY_CONTACT_IMG = "contact_img";
+    private static final String KEY_CONTACT_EMAIL = "contact_email";
 
 
     public DBHandler(Context context) {
@@ -33,11 +34,9 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_NAME + " TEXT,"
-                + KEY_CONTACT_NUMBER + " TEXT," + KEY_CONTACT_IMG + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_NAME + " TEXT,"+ KEY_CONTACT_NUMBER + " TEXT," + KEY_CONTACT_IMG + " TEXT,"+ KEY_CONTACT_EMAIL + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
-    }
+            }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -52,9 +51,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = super.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+
         values.put(KEY_CONTACT_NAME, list.getContactName()); // Contact Name
         values.put(KEY_CONTACT_NUMBER, list.getPhoneNumber()); // Contact Phone
         values.put(KEY_CONTACT_IMG, list.getIVContactImage());
+        values.put(KEY_CONTACT_EMAIL, list.getEmailAddress());
+
 
 
         // Inserting Row
@@ -68,6 +71,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+       // db.rawQuery("DELETE FROM " + TABLE_CONTACTS + " WHERE " + KEY_CONTACT_NUMBER + " = " + KEY_CONTACT_NUMBER + ");", null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -77,6 +81,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 contactList.setContactName(cursor.getString(1));
                 contactList.setPhoneNumber(cursor.getString(2));
                 contactList.setIVContactImage(cursor.getString(3));
+                contactList.setEmailAddress(cursor.getString(4));
+
 
 
               //  contactList.setIVContactImage(Integer.parseInt(cursor.getString(2)));

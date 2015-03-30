@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ranacom.phonebook" >
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,10 @@
         <activity
             android:name=".Contact"
             android:label="@string/title_activity_contact" >
+        </activity>
+        <activity
+            android:name=".ContactDetails"
+            android:label="@string/title_activity_contact_details" >
         </activity>
     </application>
 

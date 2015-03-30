@@ -36,7 +36,7 @@ public class ContactListAdapter extends ArrayAdapter<ContactList> {
             holder = new ViewHolder();
            holder.IVContactImage=(ImageView)convertView.findViewById(R.id.IVContactImage);
             holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
-            holder.tvPhoneNumber = (TextView) convertView.findViewById(R.id.tvPhoneNumber);
+         //   holder.tvPhoneNumber = (TextView) convertView.findViewById(R.id.tvPhoneNumber);
 
             convertView.setTag(holder);
         } else {
@@ -44,8 +44,12 @@ public class ContactListAdapter extends ArrayAdapter<ContactList> {
         }
 
       ContactList contactList = getItem(position);
-       holder.tvName.setText(contactList.getContactName());
-        holder.tvPhoneNumber.setText(contactList.getPhoneNumber());
+        if (contactList.getEmailAddress()!=null){
+       holder.tvName.setText(contactList.getEmailAddress());}else{
+
+            holder.tvName.setText(contactList.getContactName());
+        }
+      //  holder.tvPhoneNumber.setText(contactList.getPhoneNumber());
 
 
         String image_uri=contactList.getIVContactImage();
@@ -76,12 +80,13 @@ public class ContactListAdapter extends ArrayAdapter<ContactList> {
 //        convertView.startAnimation(animationY);
 //        animationY=null;
 
+
         return convertView;
     }
 
     static class ViewHolder {
       public ImageView IVContactImage;
         public TextView tvName;
-        public TextView tvPhoneNumber;
+      //  public TextView tvPhoneNumber;
     }
 }
