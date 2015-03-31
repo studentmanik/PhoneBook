@@ -98,16 +98,13 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
                 Cursor emails = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
 
 
-               // Log.i("Content url", image_uri);
+
 
                 while (emails.moveToNext()) {
 
-                    // This would allow you get several email addresses
+
                     emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                    String emailAddress1 = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA1));
 
-
-                    Log.e("asdds==>", emailAddress1);
 
 
                 }
@@ -116,22 +113,9 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
                       phoneNumber = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                       name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                       image_uri = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-//                      String image_uri1 = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.EXTRA_ADDRESS_BOOK_INDEX_TITLES));
-//                    Log.i("Content email", image_uri1);
+
                 }
-               /* String[] PHONES_PROJECTION = new String[] { "_id","display_name","data1","data3"};//
-                String contactId2 = cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup._ID));
-                Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId2, null, null);
-                //name type ..
-                while(phone.moveToNext()) {
-                    int i = phone.getInt(0);
-                    String str = phone.getString(1);
-                    str = phone.getString(2);
-                    str = phone.getString(3);
-                    Log.i("Content test", str);
-                }
-                phone.close();*/
+
 
                ContactList contactList = new ContactList(name,phoneNumber,image_uri,emailAddress,contactId);
 
