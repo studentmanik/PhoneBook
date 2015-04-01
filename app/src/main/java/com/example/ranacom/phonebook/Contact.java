@@ -5,10 +5,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -31,12 +38,11 @@ import java.util.List;
 
 
 public class Contact extends ActionBarActivity /*implements AbsListView.OnScrollListener*/ {
-    Bitmap bitmap;
-    ListView lv;
-   // List<ContactList> namelist;
+
+    ViewPager pager;
+
     DBHandler db;
-   // List<ContactList> contactses;
-  //  ContactList contacts;
+
     EditText etPersonName,etPhoneNumber;
     Button btnShow,btnAdd;
     ContactListAdapter adapter;
@@ -60,29 +66,32 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
 
     }
 
+    private ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+        @Override
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
+            pager.setCurrentItem(tab.getPosition());
+        }
+
+        @Override
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+        }
+
+        @Override
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+        }
+    };
 
 
     private void init() {
         db = new DBHandler(this);
-
-        etPersonName = (EditText) findViewById(R.id.etPersonName);
-        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
-
-        gv = (GridView) findViewById(R.id.gv);
-
-
-
-        btnShow= (Button) findViewById(R.id.btnShow);
-        btnAdd= (Button) findViewById(R.id.btnAdd);
-
-
         ContentResolver cr = getBaseContext().getContentResolver();
         Cursor cur = cr .query(ContactsContract.Contacts.CONTENT_URI, null, null, null,  null+ " COLLATE LOCALIZED ASC");
 
         if (cur.getCount() > 0) {
 
-        //    Log.i("Content provider", "Reading contact  emails");
 
             while (cur .moveToNext()) {
 
@@ -90,6 +99,7 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
                 String name = null;
                 String image_uri = null;
                 String emailAddress = null;
+                String emailAddress1 = null;
 
                 String contactId = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
 
@@ -104,7 +114,6 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
 
 
                     emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-
 
 
                 }
@@ -134,26 +143,74 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
 
         Toast.makeText(getApplicationContext(), "Imported", Toast.LENGTH_LONG).show();
 
-        adapter= new ContactListAdapter(getApplicationContext(),db.getAllContact());
-        gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i=new Intent(getApplicationContext(),ContactDetails.class);
-                startActivity(i);
-            }
-        });
 
+
+
+
+        pager=(ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(new SwipeAdapter(getSupportFragmentManager()));
+
+        pager.setOnPageChangeListener(onPageChangeListener);
+
+
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(R.style.ColorActionbar));
+
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.favorite).setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.single).setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.group).setTabListener(tabListener));
     }
 
 
 
+    private ViewPager.OnPageChangeListener onPageChangeListener= new ViewPager.SimpleOnPageChangeListener(){
+        @Override
+        public void onPageSelected(int position) {
+            getSupportActionBar().setSelectedNavigationItem(position);
+            super.onPageSelected(position);
+        }
+    };
 
+    private class SwipeAdapter extends FragmentPagerAdapter {
+        public SwipeAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            Fragment fragment=null;
+
+            switch (i){
+
+                case 0:
+                   fragment=new FavoriteContactActivity();
+                    break;
+                case 1:
+                  fragment= new SingleContactActivity();
+                    break;
+                case 2:
+                fragment= new GroupContactActivity();
+                    break;
+
+            }
+
+
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_contact, menu);
         return true;
     }

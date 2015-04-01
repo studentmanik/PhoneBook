@@ -5,4 +5,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <style name="ColorActionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#8EDC71</item>
+    </style>
+    <style name="colorToolBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#9EEB82</item>
+    </style>
 </resources>

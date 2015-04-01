@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.pc21.mycontact.Contact">
-    <EditText
+   <!-- <EditText
         android:id="@+id/etPersonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,8 +33,8 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnShow"/>
-    <GridView
+        android:id="@+id/btnShow"/>-->
+<!--    <GridView
         android:layout_below="@id/btnShow"
         android:id="@+id/gv"
         android:layout_width="fill_parent"
@@ -47,6 +47,11 @@
         android:columnWidth="90dp"
         android:verticalSpacing="8dp"
         android:horizontalSpacing="8dp"
+        />-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
 <!--    <ListView
