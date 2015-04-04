@@ -47,7 +47,7 @@ public class SingleContactActivity extends Fragment {
 
         for (int i = 0; i < contactLists.size(); i++) {
           if (contactLists.get(i).getContactName().toLowerCase().contains(searchStr.toLowerCase())) {
-                Toast.makeText(getActivity(), contactLists.get(i).getContactName().toLowerCase(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), contactLists.get(i).getContactName().toLowerCase(), Toast.LENGTH_SHORT).show();
 
                 searchLists.add(contactLists.get(i));
 
@@ -95,9 +95,9 @@ public class SingleContactActivity extends Fragment {
             }
         });
 
-        /*adapter= new ContactListAdapter(getActivity(),contactLists);
+        adapter= new ContactListAdapter(getActivity(),contactLists);
 
-        gv.setAdapter(adapter);*/
+        gv.setAdapter(adapter);
 
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
