@@ -155,6 +155,10 @@ public class Contact extends ActionBarActivity  {
             Intent intent =new Intent(getApplication(),MainActivity.class);
             startActivity(intent);
         }
+        else if (id == R.id.action_about) {
+            Intent intent =new Intent(getApplication(),AddContact.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

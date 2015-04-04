@@ -15,11 +15,12 @@ import android.widget.Toast;
 public class ContactDetails extends ActionBarActivity {
 ImageView contactImage;
     TextView contactName,phoneNumber,emailAddress;
+    DBHandler bd=new DBHandler(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
-        String contactId1 = getIntent().getStringExtra("contactId");
+        final String contactId1 = getIntent().getStringExtra("contactId");
         String contactName1 = getIntent().getStringExtra("contactName");
         final String phoneNumber1 = getIntent().getStringExtra("phoneNumber");
         String emailAddress1 = getIntent().getStringExtra("emailAddress");
@@ -36,7 +37,16 @@ ImageView contactImage;
         }else{
             contactImage.setImageResource(R.drawable.spalish);
         }
+        contactImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                bd.DeleteContact(contactId1);
+                Intent intent =new Intent(getApplication(),Contact.class);
+                startActivity(intent);
+
+            }
+        });
         phoneNumber= (TextView) findViewById(R.id.phoneNumber);
         phoneNumber.setText(phoneNumber1);
         phoneNumber.setOnClickListener(new View.OnClickListener() {

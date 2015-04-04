@@ -3,45 +3,5 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
 
-
-        android:id="@+id/mContactNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"/>
-    <EditText
-
-        android:layout_below="@+id/mContactNameEditText"
-        android:id="@+id/mContactPhoneEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone"/>
-    <EditText
-
-        android:layout_below="@+id/mContactPhoneEditText"
-        android:id="@+id/mContactEmailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"/>
-    <EditText
-
-        android:layout_below="@+id/mContactEmailEditText"
-        android:id="@+id/mCompanyName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Company"/>
-    <EditText
-
-        android:layout_below="@+id/mCompanyName"
-        android:id="@+id/mJobTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Job Title"/>
-
-    <Button
-        android:id="@+id/btnAdd"
-        android:text="add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>

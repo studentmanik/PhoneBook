@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.ranacom.phonebook.AddContact">
+
+    <EditText
+
+
+        android:id="@+id/mContactNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"/>
+    <EditText
+
+        android:layout_below="@+id/mContactNameEditText"
+        android:id="@+id/mContactPhoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone"/>
+    <EditText
+
+        android:layout_below="@+id/mContactPhoneEditText"
+        android:id="@+id/mContactEmailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"/>
+    <EditText
+
+        android:layout_below="@+id/mContactEmailEditText"
+        android:id="@+id/takeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Company"/>
+
+
+    <Button
+        android:layout_below="@+id/takeImage"
+        android:id="@+id/btnAdd"
+        android:text="add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

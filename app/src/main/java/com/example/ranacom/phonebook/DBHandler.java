@@ -70,6 +70,14 @@ public class DBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_CONTACTS, null, values);
         db.close(); // Closing database connection
     }
+    public  void DeleteContact(String id){
+
+        SQLiteDatabase db = super.getWritableDatabase();
+        String DELETE_ID= "DELETE FROM " + TABLE_CONTACTS +" WHERE"+" "+ KEY_ID +"="+id;
+        db.execSQL(DELETE_ID);
+
+        db.close();
+    }
     public List<ContactList> getAllContact() {
         List<ContactList> contactLists = new ArrayList<ContactList>();
         // Select All Query
