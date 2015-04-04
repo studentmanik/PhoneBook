@@ -2,6 +2,7 @@ package com.example.ranacom.phonebook;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -37,32 +39,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Contact extends ActionBarActivity /*implements AbsListView.OnScrollListener*/ {
+public class Contact extends ActionBarActivity  {
 
     ViewPager pager;
-
     DBHandler db;
-
-    EditText etPersonName,etPhoneNumber;
-    Button btnShow,btnAdd;
     ContactListAdapter adapter;
 
     GridView gv;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
-
-
         init();
-
-
 
     }
 
@@ -86,67 +75,6 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
 
 
     private void init() {
-        db = new DBHandler(this);
-        ContentResolver cr = getBaseContext().getContentResolver();
-        Cursor cur = cr .query(ContactsContract.Contacts.CONTENT_URI, null, null, null,  null+ " COLLATE LOCALIZED ASC");
-
-        if (cur.getCount() > 0) {
-
-
-            while (cur .moveToNext()) {
-
-                String phoneNumber = null;
-                String name = null;
-                String image_uri = null;
-                String emailAddress = null;
-                String emailAddress1 = null;
-
-                String contactId = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-
-
-
-                Cursor emails = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
-
-
-
-
-                while (emails.moveToNext()) {
-
-
-                    emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-
-
-                }
-                Cursor data = cr.query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
-                while (data.moveToNext()) {
-                      phoneNumber = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                      name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                      image_uri = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-
-                }
-
-
-               ContactList contactList = new ContactList(name,phoneNumber,image_uri,emailAddress,contactId);
-
-                db.addContact(contactList);
-                data.close();
-                emails.close();
-            }
-
-
-        }
-        cur.close();
-
-
-
-
-
-        Toast.makeText(getApplicationContext(), "Imported", Toast.LENGTH_LONG).show();
-
-
-
-
-
         pager=(ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new SwipeAdapter(getSupportFragmentManager()));
 
@@ -217,16 +145,51 @@ public class Contact extends ActionBarActivity /*implements AbsListView.OnScroll
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+          /*  Intent i=new Intent(getBaseContext(),MainActivity.class);
+            startActivity(i);*/
+            db = new DBHandler(this);
+            db.deleteAll();
+           init2();
+            Intent intent =new Intent(getApplication(),MainActivity.class);
+            startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void init2() {
+         db = new DBHandler(this);
+        ContentResolver cr = getBaseContext().getContentResolver();
+        Cursor cur = cr .query(ContactsContract.Contacts.CONTENT_URI, null, null, null,  null+ " COLLATE LOCALIZED ASC");
+
+        if (cur.getCount() > 0) {
+            while (cur .moveToNext()) {
+
+                String phoneNumber = null;
+                String name = null;
+                String image_uri = null;
+                String emailAddress = null;
+                String emailAddress1 = null;
+
+                String contactId = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
+                Cursor emails = cr.query( ContactsContract.CommonDataKinds.Email.CONTENT_URI,null,ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + contactId, null, null);
+ while (emails.moveToNext()) { emailAddress = emails.getString(emails.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+   }
+                Cursor data = cr.query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
+                while (data.moveToNext()) {
+                      phoneNumber = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                      name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                      image_uri = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                }
+               ContactList contactList = new ContactList(name,phoneNumber,image_uri,emailAddress,contactId);
+                db.addContact(contactList);
+                data.close();
+                emails.close();
+            }
+        }
+        cur.close();
+
+       // Toast.makeText(getApplicationContext(), "Synked", Toast.LENGTH_LONG).show();
     }
 }

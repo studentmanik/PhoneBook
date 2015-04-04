@@ -102,5 +102,18 @@ public class DBHandler extends SQLiteOpenHelper {
         // return contact list
         return contactLists;
     }
+    public void deleteAll()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // db.delete(TABLE_CONTACTS,null,null);
+       // db.execSQL("delete * from"+ TABLE_CONTACTS);
+      // db.delete(TABLE_CONTACTS, null, null);
+       // db.execSQL("TRUNCATE table" + TABLE_CONTACTS);
+        /*String selectQuery = "DELETE FROM table_name ";
+        Cursor cursor = db.getReadableDatabase().rawQuery(selectQuery, null);*/
+        db.execSQL("DELETE FROM tbl_contact");
+       // db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.close();
+    }
 
 }

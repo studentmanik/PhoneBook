@@ -16,7 +16,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 
-public class GroupContactActivity extends Fragment {
+public class GroupContactActivity extends Fragment  {
     EditText mContactNameEditText,mContactPhoneEditText,mContactEmailEditText,mCompanyName,mJobTitle;
     Button btnAdd;
     @Override
