@@ -71,7 +71,7 @@ EditText mContactNameEditText,mContactPhoneEditText,mContactEmailEditText,takeIm
                 String name = mContactNameEditText.getText().toString();
                 String phone = mContactPhoneEditText.getText().toString();
                 String email = mContactEmailEditText.getText().toString();
-              //  String image_uri= outputFileUri;
+               // String image_uri= ;
                 String contactId= null;
 
                // ContactList contactList = new ContactList(name,phone,outputFileUri,email,contactId);

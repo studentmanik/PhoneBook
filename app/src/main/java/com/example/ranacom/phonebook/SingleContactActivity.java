@@ -46,7 +46,7 @@ public class SingleContactActivity extends Fragment {
         //contactLists=db.getAllContact();
 
         for (int i = 0; i < contactLists.size(); i++) {
-          if (contactLists.get(i).getContactName().toLowerCase().contains(searchStr.toLowerCase())) {
+          if (contactLists.get(i).getContactName().contains(searchStr)) {
                 Toast.makeText(getActivity(), contactLists.get(i).getContactName().toLowerCase(), Toast.LENGTH_SHORT).show();
 
                 searchLists.add(contactLists.get(i));
@@ -109,6 +109,8 @@ public class SingleContactActivity extends Fragment {
               String emailAddress = db.getAllContact().get(position).getEmailAddress();
                 String contactImage = db.getAllContact().get(position).getIVContactImage();
                 int phoneId = db.getAllContact().get(position).getPhoneId();
+
+
                 Intent i=new Intent(getActivity(),ContactDetails.class);
                 i.putExtra("contactId", contactId);
                 i.putExtra("contactName", contactName);

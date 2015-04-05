@@ -16,6 +16,7 @@ public class ContactDetails extends ActionBarActivity {
 ImageView contactImage;
     TextView contactName,phoneNumber,emailAddress;
     DBHandler bd=new DBHandler(this);
+    String emailAddress1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,10 +24,11 @@ ImageView contactImage;
         final String contactId1 = getIntent().getStringExtra("contactId");
         String contactName1 = getIntent().getStringExtra("contactName");
         final String phoneNumber1 = getIntent().getStringExtra("phoneNumber");
-        String emailAddress1 = getIntent().getStringExtra("emailAddress");
+        emailAddress1 = getIntent().getStringExtra("emailAddress");
         String contactImage1 = getIntent().getStringExtra("contactImage");
         final String call="tel:"+phoneNumber1;
-        String phoneId1 = getIntent().getStringExtra("phoneId");
+        final String phoneId1 = getIntent().getStringExtra("phoneId");
+        final String id=String.valueOf(phoneId1);
         contactName= (TextView) findViewById(R.id.contactName);
         contactName.setText(contactName1);
         contactImage= (ImageView) findViewById(R.id.contactImage);
@@ -41,7 +43,7 @@ ImageView contactImage;
             @Override
             public void onClick(View v) {
 
-                bd.DeleteContact(contactId1);
+                bd.DeleteContact(id);
                 Intent intent =new Intent(getApplication(),Contact.class);
                 startActivity(intent);
 
@@ -67,9 +69,41 @@ ImageView contactImage;
         });
         emailAddress= (TextView) findViewById(R.id.emailAddress);
         emailAddress.setText(emailAddress1);
+        emailAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),SendEmail.class);
+               // intent.putExtra("email",emailAddress1);
+                //startActivity(intent);
+                sendEmail();
+            }
+        });
 
     }
+    protected void sendEmail() {
+        //  Log.i("Send email", "");
 
+        String[] TO = {emailAddress1};
+        String[] CC = {"studentmanik@gmail.com "};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "message");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            //    Log.i("Finished sending email...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getApplicationContext(),
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
