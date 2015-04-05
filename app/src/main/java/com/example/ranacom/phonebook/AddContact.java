@@ -130,7 +130,7 @@ EditText mContactNameEditText,mContactPhoneEditText,mContactEmailEditText,takeIm
         });
 
     }
-
+///manik test comment
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
